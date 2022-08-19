@@ -1,10 +1,13 @@
 package com.example.countryname;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.countryname.adapters.CountryAdapter;
 import com.example.countryname.model.CountryModel;
 import com.example.countryname.model.Result;
 import com.example.countryname.service.GetCountryDataService;
@@ -19,6 +22,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<CountryModel> countryModelArrayList;
+
+    private CountryAdapter countryAdapter;
+    private RecyclerView recyclerView;
 
 
     @Override
@@ -43,9 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 if (result != null && result.getResult() != null) {
                     countryModelArrayList = (ArrayList<CountryModel>) result.getResult();
 
-                    for (CountryModel countryModel : countryModelArrayList) {
-                        Log.i("TAG", ""+countryModel.getName());
-                    }
+//                    for (CountryModel countryModel : countryModelArrayList) {
+//                        Log.i("TAG", ""+countryModel.getName());
+//                    }
+
+                    ViewData();
+
                 }
             }
 
@@ -55,5 +64,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void ViewData() {
+        recyclerView = findViewById(R.id.recyclerView);
+        countryAdapter = new CountryAdapter(countryModelArrayList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(countryAdapter);
     }
 }
